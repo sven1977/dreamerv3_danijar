@@ -176,7 +176,10 @@ class WorldModel(nj.Module):
     last_action = data['action'][:, -1]
     state = last_latent, last_action
     metrics = self._metrics(data, dists, post, prior, losses, model_loss)
-    return model_loss.mean(), (state, out, metrics)
+    print(f"MODEL_LOSS={model_loss}")
+    model_loss_mean = model_loss.mean()
+    print(f"MODEL_LOSS_MEAN={model_loss_mean}")
+    return model_loss_mean, (state, out, metrics)
 
   def imagine(self, policy, start, horizon):
     first_cont = (1.0 - start['is_terminal']).astype(jnp.float32)

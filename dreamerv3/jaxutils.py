@@ -389,6 +389,8 @@ class Optimizer(nj.Module):
     metrics = {}
     loss, params, grads, aux = nj.grad(
         wrapped, modules, has_aux=True)(*args, **kwargs)
+    print("GRADS:", grads)#TODO
+    print("PARAMS:", params)#TODO
     if not self.PARAM_COUNTS[self.path]:
       count = sum([np.prod(x.shape) for x in params.values()])
       print(f'Optimizer {self.name} has {count:,} variables.')

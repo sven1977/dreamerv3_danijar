@@ -193,7 +193,8 @@ class TensorBoardOutput(AsyncOutput):
             value = value[:1024]
           tf.summary.histogram(name, value, step)
         elif len(value.shape) == 2:
-          tf.summary.image(name, value, step)
+          #tf.summary.image(name, value, step)
+          pass
         elif len(value.shape) == 3:
           tf.summary.image(name, value, step)
         elif len(value.shape) == 4:

@@ -423,10 +423,15 @@ class MLP(nj.Module):
     feat = self._inputs(inputs)
     if self._symlog_inputs:
       feat = jaxutils.symlog(feat)
+    print(f"feat.dtype={feat.dtype}")
     x = jaxutils.cast_to_compute(feat)
+    print(f"x.dtype={x.dtype}")
     x = x.reshape([-1, x.shape[-1]])
     for i in range(self._layers):
-      x = self.get(f'h{i}', Linear, self._units, **self._dense)(x)
+      lin_ = self.get(f'h{i}', Linear, self._units, **self._dense)
+      print(f"LIN_={lin_}")
+      x = lin_(x)
+    print(f"x.dtype(after layer)={x.dtype}")
     x = x.reshape(feat.shape[:-1] + (x.shape[-1],))
     if self._shape is None:
       return x

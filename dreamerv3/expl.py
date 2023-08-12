@@ -22,6 +22,11 @@ class Disag(nj.Module):
   def __call__(self, traj):
     inp = self.inputs(traj)
     preds = jnp.array([net(inp).mode() for net in self.nets])
+    # Intrinsic rewards are computed as:
+    # Std of the mode of the 32x32 discrete, stochastic state (via `mode()`)
+    # between the different nets. Meaning that if the disagreement between the N nets
+    # on what the probabilities for the different classes should be, the higher the
+    # intrinsic reward.
     return preds.std(0).mean(-1)[1:]
 
   def train(self, data):
